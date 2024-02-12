@@ -1,0 +1,42 @@
+version: '3.8'
+services:
+  pgadmin:
+    image: dpage/pgadmin4
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      resources:
+        limits:
+          memory: 1G
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=...
+      - PGADMIN_DEFAULT_PASSWORD=...
+      - PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION=False
+    volumes:
+      - type: bind
+        source: data/pgadmin
+        target: /var/lib/pgadmin
+      - type: bind
+        source: /data/pgadmin/servers.json
+        target: /pgadmin/servers.json
+    ports:
+      - "8080:80"
+
+  pgdatabase:
+    image: postgres:13
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      resources:
+        limits:
+          memory: 1G
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=ny_taxi
+    volumes:
+      - "./data/ny_taxi_postgres_data:/var/lib/postgresql/data:rw"
+    ports:
+      - "5432:5432"
