@@ -1,0 +1,3 @@
+[submodule "4_analytics_engineering/OmarZoomcamp2024-dbt"]
+	path = 4_analytics_engineering/OmarZoomcamp2024-dbt
+	url = https://github.com/omar-binary/OmarZoomcamp2024-dbt.git
